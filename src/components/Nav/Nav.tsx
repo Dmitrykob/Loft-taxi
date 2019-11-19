@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContext, AuthProvider } from "../../context/AuthContext";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
+import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,8 +18,9 @@ interface NavProps {
   setPage: Function
 }
 
-const Nav: React.SFC<NavProps> = ({setPage}) => {
+const Nav: React.FC<NavProps> = ({setPage}) => {
   const classes = useStyles();
+  const autch = useContext(AuthContext);
 
   return (
     <div className={classes.root}>
@@ -30,8 +29,8 @@ const Nav: React.SFC<NavProps> = ({setPage}) => {
           <Typography variant="h6" className={classes.title}>
             Loft Taxi
           </Typography>
-          <Button onClick={() => setPage("Map")} color="inherit">Карта</Button>
-          <Button onClick={() => setPage("Profile")} color="inherit">Профиль</Button>
+          <Button onClick={() => autch.isLoggedIn() ? setPage("Map") : setPage("Login")} color="inherit">Карта</Button>
+          <Button onClick={() => autch.isLoggedIn() ? setPage("Profile") : setPage("Login")} color="inherit">Профиль</Button>
           <Button onClick={() => setPage("Login")} color="inherit">Войти</Button>
           <Button onClick={() => setPage("Signup")} color="inherit">Регистрация</Button>
         </Toolbar>
